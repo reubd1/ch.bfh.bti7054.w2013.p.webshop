@@ -1,0 +1,186 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+       "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Dreispaltiges Layout mit Kopf- und Fußzeile</title>
+<style type="text/css">
+
+	html, body
+	{
+		height: 100%;
+	}
+	
+	body
+	{
+		margin: 0px;
+		padding: 0px;
+		background: #000 url(images/img01.jpg) no-repeat center top;
+		font-family: 'Source Sans Pro', sans-serif;
+		font-size: 12pt;
+		font-weight: 300;
+		color: #000000;
+	}
+
+	.container
+	{
+		overflow: hidden;
+		margin: 0em auto;
+		width: 1200px;
+	}
+
+/*********************************************************************************/
+/* Page                                                                          */
+/*********************************************************************************/
+
+	#page
+	{
+		overflow: hidden;
+		width: 1000px;
+		padding: 7em 100px 3em 100px;
+		background: #FFF;
+	}
+
+	#page .boxA,
+	#page .boxB,
+	#page .boxC
+	{
+	}
+	
+	#page .boxA
+	{
+	}
+	
+	#page .box
+	{
+		margin-bottom: 4em;
+	}
+	
+	#page img
+	{
+		margin-bottom: 2em;
+	}
+	
+	#page h2
+	{
+		padding-bottom: 1.5em;
+		font-size: 2.2em;
+		font-weight: 600;
+	}
+	
+	#page h3
+	{
+		padding-bottom: 1em;
+		font-size: 1.8em;
+		font-weight: 400;
+	}
+	
+	#page .link
+	{
+		display: block;
+		padding-top: 1em;
+		text-transform: uppercase;
+		text-decoration: none;
+		font-weight: 700;
+		color: rgba(0,0,0,0.8);
+	}
+	
+	
+	/*********************************************************************************/
+/* 3-column                                                                      */
+/*********************************************************************************/
+
+	.boxA,
+	.boxB,
+	.boxC
+	{
+		width: 320px;
+	}
+
+	.boxA,
+	.boxB
+	{
+		float: left;
+		margin-right: 20px;
+	}
+	
+	.boxC
+	{
+		float: right;
+	}
+	
+
+  h1 {
+    font-size: 1.5em;
+    margin: 0 0 0.7em; padding: 0.3em;
+    text-align: center;
+    background-color: #fed;
+    border: 2px ridge silver;
+  }
+
+
+
+  p#Fusszeile {
+    clear: both;
+    font-size: 0.9em;
+    margin: 0; padding: 0.1em;
+    text-align: center;
+    background-color: #fed; border: 1px solid silver;
+  }
+</style>
+</head>
+<body>
+
+  <h1>CSS-basierte Layouts</h1>
+
+
+ <div id="page" class="container">
+	<div class="title">
+		<h2>Maecenas luctus lectus</h2>	
+	</div>
+	<div class="boxA">
+		<div class="box">
+			<img src="images/img02.jpg" width="320" height="180" alt="" />
+			<h3>Mauris vulputate  </h3>
+			<p>Donec leo, vivamus fermentum nibh in augue praesent a lacus at urna congue rutrum.</p>
+			<a href="#" class="button">Read More</a>
+		</div>
+		<div class="box">
+			<img src="images/img05.jpg" width="320" height="180" alt="" />
+			<h3>Praesent scelerisque</h3>
+			<p>Donec leo, vivamus fermentum nibh in augue praesent a lacus at urna congue rutrum.</p>
+			<a href="#" class="button">Read More</a>
+		</div>
+	</div>
+	<div class="boxB">
+		<div class="box">
+			<img src="images/img03.jpg" width="320" height="180" alt="" />
+			<h3>Donec dictum metus</h3>
+			<p>Donec leo, vivamus fermentum nibh in augue praesent a lacus at urna congue rutrum.</p>
+			<a href="#" class="button">Read More</a>
+		</div>
+		<div class="box">
+			<img src="images/img06.jpg" width="320" height="180" alt="" />
+			<h3>Nulla luctus eleifend</h3>
+			<p>Donec leo, vivamus fermentum nibh in augue praesent a lacus at urna congue rutrum.</p>
+			<a href="#" class="button">Read More</a>
+		</div>
+	</div>
+	<div class="boxC">
+		<div class="box">
+			<img src="images/img04.jpg" width="320" height="360" alt="" />
+			<h3>Integer gravida nibh</h3>
+			<p>Donec leo, vivamus fermentum nibh in augue praesent a lacus at urna congue rutrum.</p>
+			<a href="#" class="button">Read More</a>
+		</div>
+	</div>
+</div>
+
+
+  <p id="Fusszeile">Diese Fußzeile stellt über die CSS-Eigenschaft 'clear'
+     den Elementenfluss wieder her.</p>
+     
+     
+    
+
+</body>
+</html>

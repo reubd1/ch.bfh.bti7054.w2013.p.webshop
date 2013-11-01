@@ -1,0 +1,189 @@
+@import url(http://fonts.googleapis.com/css?family=Capriola);
+
+
+/* General */
+
+* { margin: 0; padding: 0; }
+
+html { height: 100%; font-size: 62.5% }
+
+body {
+height: 100%;
+background-color: #10578D;
+text-align: center;
+font: 1.2em Verdana, Arial, Helvetica, sans-serif;
+}
+
+a:link, a:visited {
+color: #004F8B;
+text-decoration: underline;
+font-weight: bolder;
+}
+
+a:hover {
+text-decoration: none;
+}
+
+.noscreen {
+display: none;
+}
+
+/* Skip menu */
+
+.hidden {
+position: absolute;
+top: -10000px;
+left: 0;
+width: 1px;
+height: 1px;
+overflow: hidden;
+}
+
+/* Wrapper */
+
+#wrapper {
+width: 850px;
+margin: 0 auto 0 auto;
+padding-bottom: 90px;
+text-align: left;
+}
+
+/* Menu */
+
+ul.menu {
+list-style-type: none;
+}
+
+ul.menu li {
+background: url('images/menu-li-divider.gif') no-repeat 50% 100%;
+padding: 18px 0;
+}
+
+ul.menu li a, ul.menu li a:visited {
+color: #FFFFFF;
+font-weight: normal;
+text-decoration: none;
+padding: 4px 7px;
+}
+
+ul.menu li a:hover, ul.menu li a.active {
+background-color: #002F53;
+}
+
+ul.menu li.last {
+background: none;
+}
+
+
+/* Content box */
+
+.content {
+width: 850px;
+margin: 19px auto 0 auto;
+}
+
+.column-left {
+float: left;
+width: 165px;
+text-align: center;
+color: #FFFFFF;
+}
+
+.column-left h3 {
+font: normal 1.5em Georgia, "Times New Roman", Times, serif;
+margin: 10px 0 7px 0;
+letter-spacing: 1px;
+}
+
+.column-right {
+margin: 0 0 0 191px;
+width: 650px;
+}
+
+.box-top {
+background: url('images/box-top.gif') no-repeat 0 0;
+height: 12px;
+}
+
+.box {
+background: url('images/box-bg.gif') repeat-y 0 0;
+}
+
+.box-in {
+background-color: #FFFFFF;
+padding: 0.8em 0 5em 0;
+margin: 0 6em 0 2em;
+}
+
+.box-in p {
+line-height: 1.6;
+margin: 0 0 10px 25px;
+color: #242424;
+}
+
+.box-bottom {
+background: url('images/box-bottom.gif') no-repeat 0 100%;
+height: 48px;
+}
+
+/* Wrapper */
+
+#tabwrapper {
+width: 550px;
+margin: 60px auto 0 auto;
+padding:0;
+text-align: left;
+}
+
+/* TabMenu CSS */#tabmenu,
+#tabmenu ul,
+#tabmenu ul li,
+#tabmenu ul li a {
+  padding: 0;
+  margin: 0;
+  line-height: 1;
+  font-family: 'Capriola', sans-serif;
+}
+
+#tabmenu {
+  zoom: 1;
+  height: 25px;
+  background: url(images/bottom-bg.png) repeat-x center bottom;
+  border-radius: 2px;
+  width: auto;
+}
+#tabmenu ul {
+  background: url(images/nav-bg.png) repeat-x 0px 4px;
+  height: 40px;
+}
+#tabmenu ul li {
+  float: left;
+  list-style: none;
+}
+#tabmenu ul li a {
+  display: block;
+  height: 25px;
+  padding: 10px 30px 0;
+  margin: 4px 2px 0;
+  border-radius: 2px 2px 0 0;
+  text-decoration: none;
+  font-size: 15px;
+  color: white;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.75);
+  font-weight: 400;
+  opacity: .9;
+}
+#tabmenu ul li:first-child a {
+  margin: 4px 2px 0 0;
+}
+#tabmenu ul li a:hover,
+#tabmenu ul li.active a {
+  background: url(images/color.png) center bottom;
+  display: block;
+  height: 25px;
+  margin-top: 0px;
+  padding-top: 15px;
+  color: #1a95a0;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.35);
+  opacity: 1;
+}
