@@ -1,0 +1,8 @@
+{
+    "require": {
+        "propel/propel": "dev-master"
+    }, 
+    "autoload": { 
+         "classmap": ["generated-classes/"] 
+    } 
+}

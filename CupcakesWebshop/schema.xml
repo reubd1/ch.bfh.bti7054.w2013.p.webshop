@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database name="bti7054" defaultIdMethod="native">
+  <table name="category" phpName="Category">
+    <column name="category_id" type="integer" required="true" primaryKey="true" autoIncrement="true"/>
+    <column name="name" type="varchar" size="48" required="true" />
+  </table>
+  <table name="item" phpName="Item">
+    <column name="item_id" type="integer" required="true" primaryKey="true" autoIncrement="true"/>
+    <column name="name" type="varchar" size="45" required="true" />
+    <column name="price" type="float" required="true"/>
+    <column name="image" type="varchar" size="255"  required="true"/>
+    <column name="available" type="boolean" />
+<column name="category_id" type="integer" required="true"/>
+    <foreign-key foreignTable="category">
+      <reference local="category_id" foreign="category_id"/>
+    </foreign-key>
+  </table>
+  <table name="item_description" phpName="ItemDescription">
+    <column name="item_desc_id" type="integer" required="true" primaryKey="true" autoIncrement="true"/>
+    <column name="language" type="varchar" size="45" required="true" />
+    <column name="text" type="varchar" size="45" required="true"/>
+<column name="item_id" type="integer" required="true"/>
+    <foreign-key foreignTable="item">
+      <reference local="item_id" foreign="item_id"/>
+    </foreign-key>
+  </table>
+  <table name="order_items" phpName="OrderItems">
+    <column name="order_items_id" type="integer" required="true" primaryKey="true" autoIncrement="true"/>
+    <column name="amount" type="integer"  required="true" />
+   <column name="order_id" type="integer" required="true"/>
+<column name="item_id" type="integer" required="true"/>
+    <foreign-key foreignTable="item">
+      <reference local="item_id" foreign="item_id"/>
+    </foreign-key>
+    <foreign-key foreignTable="order">
+      <reference local="order_id" foreign="order_id"/>
+    </foreign-key>
+  </table>
+  <table name="order" phpName="Order">
+    <column name="order_id" type="integer" required="true" primaryKey="true" autoIncrement="true"/>
+    <column name="total" type="float"  required="true" />
+<column name="order_date" type="date"  required="true" />
+   <column name="user_id" type="integer" required="true"/>
+<column name="shipping_id" type="integer" required="true"/>
+<column name="billing_id" type="integer" required="true"/>
+    <foreign-key foreignTable="user">
+      <reference local="user_id" foreign="user_id"/>
+    </foreign-key>
+    <foreign-key foreignTable="billing">
+      <reference local="billing_id" foreign="billing_id"/>
+    </foreign-key>
+    <foreign-key foreignTable="shipping_address">
+      <reference local="shipping_id" foreign="shipping_id"/>
+    </foreign-key>
+  </table>
+  <table name="billing" phpName="Billing">
+    <column name="billing_id" type="integer" required="true" primaryKey="true" autoIncrement="true"/>
+<column name="user_id" type="integer" required="true"/>
+<column name="card_id" type="integer" required="true"/>
+<column name="card_type" type="integer" required="true"/>
+<column name="card_number" type="integer" required="true"/>
+<column name="expire_date" type="date" required="true"/>
+    <foreign-key foreignTable="user">
+      <reference local="user_id" foreign="user_id"/>
+    </foreign-key>
+  </table>
+<table name="user" phpName="User">
+    <column name="user_id" type="integer" required="true" primaryKey="true" autoIncrement="true"/>
+    <column name="username" type="varchar" size="45" required="true" />
+    <column name="password" type="varchar" size="45" required="true"/>
+    <column name="email" type="varchar" size="45"  required="true"/>
+  </table>
+<table name="shipping_address" phpName="ShippingAddress">
+    <column name="shipping_id" type="integer" required="true" primaryKey="true" autoIncrement="true"/>
+    <column name="name" type="varchar" size="45" required="true" />
+    <column name="street" type="varchar" size="45" required="true"/>
+    <column name="zip" type="integer" required="true"/>
+<column name="city" type="varchar" size="45" required="true"/>
+<column name="country" type="varchar" size="45" required="true"/>
+    <column name="available" type="boolean" />
+<column name="user_id" type="integer" required="true"/>
+    <foreign-key foreignTable="user">
+      <reference local="user_id" foreign="user_id"/>
+    </foreign-key>
+  </table>
+<table name="custom_item" phpName="CustomItem">
+    <column name="custom_item_id" type="integer" required="true" primaryKey="true" autoIncrement="true"/>
+    <column name="name" type="varchar" size="45" required="true" />
+   <column name="order_id" type="integer" required="true"/>
+<column name="cake_id" type="integer" required="true"/>
+<column name="topping_id" type="integer" required="true"/>
+<column name="deco_id" type="integer" required="true"/>
+    <foreign-key foreignTable="order">
+      <reference local="order_id" foreign="order_id"/>
+    </foreign-key>
+    <foreign-key foreignTable="cake">
+      <reference local="cake_id" foreign="cake_id"/>
+    </foreign-key>
+    <foreign-key foreignTable="topping">
+      <reference local="topping_id" foreign="topping_id"/>
+    </foreign-key>
+    <foreign-key foreignTable="decoration">
+      <reference local="deco_id" foreign="deco_id"/>
+    </foreign-key>
+  </table>
+  <table name="cake" phpName="Cake">
+    <column name="cake_id" type="integer" required="true" primaryKey="true" autoIncrement="true"/>
+    <column name="name" type="varchar" size="45" required="true" />
+<column name="description" type="varchar" size="45" required="true" />
+  </table>
+  <table name="topping" phpName="Topping">
+    <column name="topping_id" type="integer" required="true" primaryKey="true" autoIncrement="true"/>
+    <column name="name" type="varchar" size="45" required="true" />
+<column name="description" type="varchar" size="45" required="true" />
+  </table>
+  <table name="decoration" phpName="Decoration">
+    <column name="deco_id" type="integer" required="true" primaryKey="true" autoIncrement="true"/>
+    <column name="name" type="varchar" size="45" required="true" />
+<column name="description" type="varchar" size="45" required="true" />
+  </table>
+</database>
