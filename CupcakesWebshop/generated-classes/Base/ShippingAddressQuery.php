@@ -47,9 +47,9 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildShippingAddressQuery rightJoinUser($relationAlias = null) Adds a RIGHT JOIN clause to the query using the User relation
  * @method     ChildShippingAddressQuery innerJoinUser($relationAlias = null) Adds a INNER JOIN clause to the query using the User relation
  *
- * @method     ChildShippingAddressQuery leftJoinOrder($relationAlias = null) Adds a LEFT JOIN clause to the query using the Order relation
- * @method     ChildShippingAddressQuery rightJoinOrder($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Order relation
- * @method     ChildShippingAddressQuery innerJoinOrder($relationAlias = null) Adds a INNER JOIN clause to the query using the Order relation
+ * @method     ChildShippingAddressQuery leftJoinOrders($relationAlias = null) Adds a LEFT JOIN clause to the query using the Orders relation
+ * @method     ChildShippingAddressQuery rightJoinOrders($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Orders relation
+ * @method     ChildShippingAddressQuery innerJoinOrders($relationAlias = null) Adds a INNER JOIN clause to the query using the Orders relation
  *
  * @method     ChildShippingAddress findOne(ConnectionInterface $con = null) Return the first ChildShippingAddress matching the query
  * @method     ChildShippingAddress findOneOrCreate(ConnectionInterface $con = null) Return the first ChildShippingAddress matching the query, or a new ChildShippingAddress object populated from the query conditions when no match is found
@@ -592,40 +592,40 @@ abstract class ShippingAddressQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query by a related \Order object
+     * Filter the query by a related \Orders object
      *
-     * @param \Order|ObjectCollection $order  the related object to use as filter
+     * @param \Orders|ObjectCollection $orders  the related object to use as filter
      * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return ChildShippingAddressQuery The current query, for fluid interface
      */
-    public function filterByOrder($order, $comparison = null)
+    public function filterByOrders($orders, $comparison = null)
     {
-        if ($order instanceof \Order) {
+        if ($orders instanceof \Orders) {
             return $this
-                ->addUsingAlias(ShippingAddressTableMap::SHIPPING_ID, $order->getShippingId(), $comparison);
-        } elseif ($order instanceof ObjectCollection) {
+                ->addUsingAlias(ShippingAddressTableMap::SHIPPING_ID, $orders->getShippingId(), $comparison);
+        } elseif ($orders instanceof ObjectCollection) {
             return $this
-                ->useOrderQuery()
-                ->filterByPrimaryKeys($order->getPrimaryKeys())
+                ->useOrdersQuery()
+                ->filterByPrimaryKeys($orders->getPrimaryKeys())
                 ->endUse();
         } else {
-            throw new PropelException('filterByOrder() only accepts arguments of type \Order or Collection');
+            throw new PropelException('filterByOrders() only accepts arguments of type \Orders or Collection');
         }
     }
 
     /**
-     * Adds a JOIN clause to the query using the Order relation
+     * Adds a JOIN clause to the query using the Orders relation
      *
      * @param     string $relationAlias optional alias for the relation
      * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
      * @return ChildShippingAddressQuery The current query, for fluid interface
      */
-    public function joinOrder($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    public function joinOrders($relationAlias = null, $joinType = Criteria::INNER_JOIN)
     {
         $tableMap = $this->getTableMap();
-        $relationMap = $tableMap->getRelation('Order');
+        $relationMap = $tableMap->getRelation('Orders');
 
         // create a ModelJoin object for this join
         $join = new ModelJoin();
@@ -640,14 +640,14 @@ abstract class ShippingAddressQuery extends ModelCriteria
             $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
             $this->addJoinObject($join, $relationAlias);
         } else {
-            $this->addJoinObject($join, 'Order');
+            $this->addJoinObject($join, 'Orders');
         }
 
         return $this;
     }
 
     /**
-     * Use the Order relation Order object
+     * Use the Orders relation Orders object
      *
      * @see useQuery()
      *
@@ -655,13 +655,13 @@ abstract class ShippingAddressQuery extends ModelCriteria
      *                                   to be used as main alias in the secondary query
      * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
-     * @return   \OrderQuery A secondary query class using the current class as primary query
+     * @return   \OrdersQuery A secondary query class using the current class as primary query
      */
-    public function useOrderQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    public function useOrdersQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
     {
         return $this
-            ->joinOrder($relationAlias, $joinType)
-            ->useQuery($relationAlias ? $relationAlias : 'Order', '\OrderQuery');
+            ->joinOrders($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'Orders', '\OrdersQuery');
     }
 
     /**

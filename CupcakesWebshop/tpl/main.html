@@ -1,0 +1,245 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>Simple Personal</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="navi.css" type="text/css"
+	media="screen, projection, tv" />
+<link href="login.css" type="text/css" rel="stylesheet">
+<style>
+.black_overlay {
+	display: none;
+	position: absolute;
+	top: 0%;
+	left: 0%;
+	width: 100%;
+	height: 100%;
+	background-color: black;
+	z-index: 1001;
+	-moz-opacity: 0.8;
+	opacity: .80;
+	filter: alpha(opacity =       80);
+}
+
+.white_content {
+	display: none;
+	position: absolute;
+	top: 25%;
+	left: 25%;
+	width: 50%;
+	height: 50%;
+	padding: 16px;
+	border: 16px solid orange;
+	background-color: white;
+	z-index: 1002;
+	overflow: auto;
+}
+
+.searchcontent {
+	width: 200px;
+	margin: 0 780px;
+}
+
+#searchid {
+	width: 200px;
+	border: solid 1px #000;
+	padding: 10px;
+	font-size: 14px;
+	height: 5px;
+}
+
+#res {
+	position: absolute;
+	width: 210px;
+	padding: 5px;
+	display: none;
+	margin-top: -1px;
+	border-top: 0px;
+	overflow: hidden;
+	border: 1px #CCC solid;
+	background-color: white;
+}
+
+.show {
+	padding: 5px;
+	border-bottom: 1px #999 dashed;
+	font-size: 15px;
+	height: 10x;
+}
+
+.show:hover {
+	background: #339999;
+	color: #FFF;
+	cursor: pointer;
+}
+</style>
+
+<!-- JS File for Twitter Message Expand/Collapse -->
+<script type="text/javascript" src="../js/switchcontent.js"></script>
+
+<!-- JS File used for ajax search -->
+<script type="text/javascript" src="../js/jquery-1.8.0.min.js"></script>
+
+<!-- JS used for ajax search -->
+<script type="text/javascript" src="../js/ajax-search.js">
+	
+</script>
+<script>
+	$(document).ready(function() {
+		$('a.login-window').click(function() {
+
+			//Getting the variable's value from a link 
+			var loginBox = $(this).attr('href');
+
+			//Fade in the Popup
+			$(loginBox).fadeIn(300);
+
+			//Set the center alignment padding + border see css style
+			var popMargTop = ($(loginBox).height() + 24) / 2;
+			var popMargLeft = ($(loginBox).width() + 24) / 2;
+
+			$(loginBox).css({
+				'margin-top' : -popMargTop,
+				'margin-left' : -popMargLeft
+			});
+
+			// Add the mask to body
+			$('body').append('<div id="mask"></div>');
+			$('#mask').fadeIn(300);
+
+			return false;
+		});
+
+		// When clicking on the button close or the mask layer the popup closed
+		$('a.close, #mask').live('click', function() {
+			$('#mask , .login-popup').fadeOut(300, function() {
+				$('#mask').remove();
+			});
+			return false;
+		});
+	});
+</script>
+</head>
+
+<body>
+	<form action="main.php" method="post">
+		<select name="lang" onchange="this.form.submit()">
+			<option value="">Language:</option>
+			<option value="EN">English</option>
+			<option value="DE">Deutsch</option>
+		</select>
+	</form>
+
+	<p>Language: {$lang}</p>
+
+{if="$username!=null"}
+Logged in as <b>{$username}</b><a href="logout.php">Logout</a>
+{else}
+	<a href="#login-box" class="login-window">Login / Sign In</a>
+{/if}
+	<div class="outer-container">
+		<div class="inner-container">
+			<div class="header">
+				<div
+					style="background-image: url(images/logo.gif); background-repeat: no-repeat; margin: 0 240px; padding: 160px">
+				</div>
+				<div class="searchcontent">
+					<input type="text" class="search" id="searchid"
+						placeholder="{$search}" />
+					<div id="res"></div>
+				</div>
+				<div
+					style="background-image: url(images/border.gif); background-repeat: repeat-x; padding: 10px">
+					<!-- Main Input -->
+				</div>
+
+				<div class="navigation">
+					<div id='topmenu'>
+						<ul class="button">
+							{loop="cat"} {if="$value->getCategoryId() == get_param('catid',
+							0)"}
+							<li><a href="{$key}" class="current">{$value->getName()}</a></li>
+							{else}
+							<li><a href="{$key}">{$value->getName()}</a></li> {/if} {/loop}
+							{if="get_param('id',0)==1"}
+							<li><a href="editorMain.php?action=editor" class="current">{$custom}</a></li>
+							{else}
+							<li><a href="editorMain.php?action=editor">{$custom}</a></li>
+							{/if} {if="get_param('id',0)==2"}
+							<li><a href="cart.php?action=cart" class="cartcurrent">{$cartmenu}
+									({$cart->countItems()})</a></li> {else}
+							<li><a href="cart.php?action=cart" class="cart">{$cartmenu}
+									({$cart->countItems()})</a></li> {/if}
+						</ul>
+					</div>
+				</div>
+				<div class="contents">
+					<div class="box">
+						<div class="box-top"></div>
+						<div class="box-in">
+							<!--?php content(); ?-->
+							{if="get_param('action','productlist')==cart"} {include="cart"}
+							{elseif="get_param('action','productlist')==editor || get_param('action','productlist')==addcustom"}
+							{include="editor"}
+							{elseif="get_param('action','productlist')==checkout"}
+							{include="checkout"} {else} {include="productlist"} {/if}
+
+						</div>
+					</div>
+					<div class="clearer"></div>
+
+					<div class="footer">
+						<div
+							style="background-image: url(images/border.gif); background-repeat: repeat-x; padding: 10px">
+							<br>
+								<p>erstellt von Dominik Reubi</p>
+
+								<div class="twitter_container">
+									<div class="twitter_title">
+										Tweets: <a
+											href="javascript:bobexample.sweepToggle('contract')">Contract
+											All</a> | <a href="javascript:bobexample.sweepToggle('expand')">Expand
+											All</a>
+									</div>
+									{loop="tweets"}
+									<h3 id="bobcontent{$key}-title" class="handcursor"></h3>
+									<div id="bobcontent{$key}" class="switchgroup1">
+										<div class="twitter_status">
+											<img src="{$tweets->profile_image_url}" class="twitter_image">
+												<a href="http://www.twitter.com/{$value->user->screen_name}">
+													{$value->user->screen_name} </a> {$value->text}
+												<div class="twitter_posted_at">Posted at:
+													{$value->created_at}</div>
+										</div>
+									</div>
+									{/loop}
+								</div>
+						</div>
+					</div>
+				</div>
+				<script type="text/javascript">
+					// MAIN FUNCTION: new switchcontent("class name", "[optional_element_type_to_scan_for]") REQUIRED
+					// Call Instance.init() at the very end. REQUIRED
+
+					var bobexample = new switchcontent("switchgroup1", "div") //Limit scanning of switch contents to just "div" elements
+					bobexample.setColor('darkred', 'black')
+					bobexample.setPersist(true)
+					bobexample.collapsePrevious(true) //Only one content open at any given time
+					bobexample.init()
+				</script>
+
+				<div id="login-box" class="login-popup">
+					<a href="#" class="close">x</a>
+					<form action="login.php" class="signin" method="post">
+						<fieldset class="textbox">
+							<label class="username"> <span>Username</span> <input
+								type="text" size="24" maxlength="50" name="username"></label> <label
+								class="password"> <span>Password</span> <input
+								type="password" size="24" maxlength="50" name="password"></label>
+							<input type="submit" value="Login">
+						</fieldset>
+						Noch nicht registriert? <a href="register.html">Hier kannst du dich registrieren</a>
+					</form>
+				</div>
+</body>
+</html>

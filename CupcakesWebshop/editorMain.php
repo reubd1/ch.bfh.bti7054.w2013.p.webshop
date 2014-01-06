@@ -1,70 +1,100 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
-       "http://www.w3.org/TR/html4/strict.dtd">
-<html>
-<head>
-<style type="text/css">
-@import "navi.css";
-.button {
-    border: 1px solid #006;
-    background: #9cf;
+<?php
+include("ShoppingCart.inc.php");
+include("CartItem.inc.php");
+include 'functions.php';
+session_start();
+if (!isset($_SESSION["cart"]))
+	$_SESSION["cart"] = new ShoppingCart;
+else
+	$tpl->assign("cart", $_SESSION["cart"]);
+
+
+if (!empty($_GET["action"])){
+	if($_GET["action"]=="addcustom"){
+		$tpl->assign("addcustom", true);
+	}
 }
-</style>
-</head>
-<body>
+else{
+	$tpl->assign("addcustom", false);
+}
 
-<?php include 'functions.php'; ?>
-<div id="tabwrapper">
-<div id='tabmenu'>
-<ul>
-<?php tabmenu(); ?>
-</ul>
-</div>
-</div>
-<div id="wrapper">
-  <hr class="noscreen" />
-  <div class="content">
-    <div class="column-left">
-      <h3>MENU</h3>
-      <a href="#skip-menu" class="hidden">Skip menu</a>
-      <ul class="menu">
-<?php menu(); ?>
-      </ul>
-    </div>
-    <div id="skip-menu"></div>
-    <div class="column-right">
-      <div class="box">
-        <div class="box-top"></div>
-        <div class="box-in">
+if($_POST)
+{
+	$name = $_POST['item'];
+	$quantity = $_POST['quantity'];
 
-<p> Bitte w&auml;hle die Gr&ouml;sse:</p><br>
-<form action="editorFrosting.php" method="post">
-     <ul>
-    <li  style="list-style:none;">
-     <input type="radio" name="size" value="small" />
-      klein
-     <input type="radio" name="size" 
-     value="medium"/>mittel
- <input type="radio" name="size" 
-     value="large"/>gross
-     </li>
- </ul>
-<br>
-Bitte w&auml;hle hier ein Aroma:<br><br>
-     <input type="radio" name="flavor" value="vanilla" />
-      Vanille</br>
-     <input type="radio" name="flavor" 
-     value="choco"/> Schokolade</br>
- <input type="radio" name="flavor" 
-     value="citro"/> Zitrone
-<br><br>
-<input type="submit" value="Submit" class="button" />
+	// Full Name
+	if (eregi('^[A-Za-z0-9 ]{3,20}$',$name))
+	{
+		$valid_name=$name;
+	}
+	else
+	{
+		$error_name='Enter valid Name.';
+		$tpl->assign("error_name", $error_name);
+	}
+	// Quantity
+	if (eregi('^(100|[1-9][0-9]?)$',$quantity))
+	{
+		$valid_quantity=$quantity;
+	}
+	else
+	{
+		$error_quantity='Please only digits between 1-100';
+		$tpl->assign("error_quantity", $error_quantity);
+	}
 
-</form>
+	//check if name and quality entries are correct
+	if((strlen($valid_name)>0)&&(strlen($valid_quantity)>0))
+	{
+		if (isset($_POST["item"]) && isset($_POST["cake"]) && isset($_POST["topping"]) && isset($_POST["deco"]) && isset($_POST['quantity'])){
+			//if everything is set correct, put the custom cake to the cart. uniqid(custom) creates an unique id with prefix 'custom'
+			$_SESSION["cart"]->addItem(new CartItem(uniqid(custom), $_POST["item"], $_POST["price"], $_POST["cake"], $_POST["topping"], $_POST["deco"]), $_POST['quantity']);
+		}
+		else{
+			$error_general = "Please check all required radiobuttons";
+			$tpl->assign("error_general", $error_general);
+		}
+	}
+	else{
+	}
+}
 
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-</body>
-</html>
+
+$cakes = CakeQuery::create()->find();
+$cake = new Cake();
+
+$cakearr = array();
+foreach($cakes as $cake){
+	$cakearr[]= $cake;
+}
+$tpl->assign("cake", $cakearr);
+
+$toppings = ToppingQuery::create()->find();
+$topping = new Topping();
+
+$toppingarr = array();
+foreach($toppings as $topping){
+	$toppingarr[]= $topping;
+}
+$tpl->assign("topping", $toppingarr);
+
+$decorations = DecorationQuery::create()->find();
+$decoration = new Decoration();
+
+$decorationarr = array();
+foreach($decorations as $decoration){
+	$decorationarr[]= $decoration;
+}
+$tpl->assign("decoration", $decorationarr);
+
+menu();
+
+$html = $tpl->draw( 'main', $return_string = true );
+// and then draw the output
+echo $html;
+
+?>
+
+
+

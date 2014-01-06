@@ -7,8 +7,8 @@ use \CakeQuery as ChildCakeQuery;
 use \CustomItemQuery as ChildCustomItemQuery;
 use \Decoration as ChildDecoration;
 use \DecorationQuery as ChildDecorationQuery;
-use \Order as ChildOrder;
-use \OrderQuery as ChildOrderQuery;
+use \Orders as ChildOrders;
+use \OrdersQuery as ChildOrdersQuery;
 use \Topping as ChildTopping;
 use \ToppingQuery as ChildToppingQuery;
 use \Exception;
@@ -96,9 +96,9 @@ abstract class CustomItem implements ActiveRecordInterface
     protected $deco_id;
 
     /**
-     * @var        Order
+     * @var        Orders
      */
-    protected $aOrder;
+    protected $aOrders;
 
     /**
      * @var        Cake
@@ -506,8 +506,8 @@ abstract class CustomItem implements ActiveRecordInterface
             $this->modifiedColumns[CustomItemTableMap::ORDER_ID] = true;
         }
 
-        if ($this->aOrder !== null && $this->aOrder->getOrderId() !== $v) {
-            $this->aOrder = null;
+        if ($this->aOrders !== null && $this->aOrders->getOrderId() !== $v) {
+            $this->aOrders = null;
         }
 
 
@@ -673,8 +673,8 @@ abstract class CustomItem implements ActiveRecordInterface
      */
     public function ensureConsistency()
     {
-        if ($this->aOrder !== null && $this->order_id !== $this->aOrder->getOrderId()) {
-            $this->aOrder = null;
+        if ($this->aOrders !== null && $this->order_id !== $this->aOrders->getOrderId()) {
+            $this->aOrders = null;
         }
         if ($this->aCake !== null && $this->cake_id !== $this->aCake->getCakeId()) {
             $this->aCake = null;
@@ -724,7 +724,7 @@ abstract class CustomItem implements ActiveRecordInterface
 
         if ($deep) {  // also de-associate any related objects?
 
-            $this->aOrder = null;
+            $this->aOrders = null;
             $this->aCake = null;
             $this->aTopping = null;
             $this->aDecoration = null;
@@ -844,11 +844,11 @@ abstract class CustomItem implements ActiveRecordInterface
             // method.  This object relates to these object(s) by a
             // foreign key reference.
 
-            if ($this->aOrder !== null) {
-                if ($this->aOrder->isModified() || $this->aOrder->isNew()) {
-                    $affectedRows += $this->aOrder->save($con);
+            if ($this->aOrders !== null) {
+                if ($this->aOrders->isModified() || $this->aOrders->isNew()) {
+                    $affectedRows += $this->aOrders->save($con);
                 }
-                $this->setOrder($this->aOrder);
+                $this->setOrders($this->aOrders);
             }
 
             if ($this->aCake !== null) {
@@ -1078,8 +1078,8 @@ abstract class CustomItem implements ActiveRecordInterface
         }
 
         if ($includeForeignObjects) {
-            if (null !== $this->aOrder) {
-                $result['Order'] = $this->aOrder->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+            if (null !== $this->aOrders) {
+                $result['Orders'] = $this->aOrders->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
             if (null !== $this->aCake) {
                 $result['Cake'] = $this->aCake->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
@@ -1286,13 +1286,13 @@ abstract class CustomItem implements ActiveRecordInterface
     }
 
     /**
-     * Declares an association between this object and a ChildOrder object.
+     * Declares an association between this object and a ChildOrders object.
      *
-     * @param                  ChildOrder $v
+     * @param                  ChildOrders $v
      * @return                 \CustomItem The current object (for fluent API support)
      * @throws PropelException
      */
-    public function setOrder(ChildOrder $v = null)
+    public function setOrders(ChildOrders $v = null)
     {
         if ($v === null) {
             $this->setOrderId(NULL);
@@ -1300,10 +1300,10 @@ abstract class CustomItem implements ActiveRecordInterface
             $this->setOrderId($v->getOrderId());
         }
 
-        $this->aOrder = $v;
+        $this->aOrders = $v;
 
         // Add binding for other direction of this n:n relationship.
-        // If this object has already been added to the ChildOrder object, it will not be re-added.
+        // If this object has already been added to the ChildOrders object, it will not be re-added.
         if ($v !== null) {
             $v->addCustomItem($this);
         }
@@ -1314,26 +1314,26 @@ abstract class CustomItem implements ActiveRecordInterface
 
 
     /**
-     * Get the associated ChildOrder object
+     * Get the associated ChildOrders object
      *
      * @param      ConnectionInterface $con Optional Connection object.
-     * @return                 ChildOrder The associated ChildOrder object.
+     * @return                 ChildOrders The associated ChildOrders object.
      * @throws PropelException
      */
-    public function getOrder(ConnectionInterface $con = null)
+    public function getOrders(ConnectionInterface $con = null)
     {
-        if ($this->aOrder === null && ($this->order_id !== null)) {
-            $this->aOrder = ChildOrderQuery::create()->findPk($this->order_id, $con);
+        if ($this->aOrders === null && ($this->order_id !== null)) {
+            $this->aOrders = ChildOrdersQuery::create()->findPk($this->order_id, $con);
             /* The following can be used additionally to
                 guarantee the related object contains a reference
                 to this object.  This level of coupling may, however, be
                 undesirable since it could result in an only partially populated collection
                 in the referenced object.
-                $this->aOrder->addCustomItems($this);
+                $this->aOrders->addCustomItems($this);
              */
         }
 
-        return $this->aOrder;
+        return $this->aOrders;
     }
 
     /**
@@ -1521,7 +1521,7 @@ abstract class CustomItem implements ActiveRecordInterface
         if ($deep) {
         } // if ($deep)
 
-        $this->aOrder = null;
+        $this->aOrders = null;
         $this->aCake = null;
         $this->aTopping = null;
         $this->aDecoration = null;

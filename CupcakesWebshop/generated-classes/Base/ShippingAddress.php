@@ -2,8 +2,8 @@
 
 namespace Base;
 
-use \Order as ChildOrder;
-use \OrderQuery as ChildOrderQuery;
+use \Orders as ChildOrders;
+use \OrdersQuery as ChildOrdersQuery;
 use \ShippingAddress as ChildShippingAddress;
 use \ShippingAddressQuery as ChildShippingAddressQuery;
 use \User as ChildUser;
@@ -111,10 +111,10 @@ abstract class ShippingAddress implements ActiveRecordInterface
     protected $aUser;
 
     /**
-     * @var        ObjectCollection|ChildOrder[] Collection to store aggregation of ChildOrder objects.
+     * @var        ObjectCollection|ChildOrders[] Collection to store aggregation of ChildOrders objects.
      */
-    protected $collOrders;
-    protected $collOrdersPartial;
+    protected $collOrderss;
+    protected $collOrderssPartial;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced
@@ -128,7 +128,7 @@ abstract class ShippingAddress implements ActiveRecordInterface
      * An array of objects scheduled for deletion.
      * @var ObjectCollection
      */
-    protected $ordersScheduledForDeletion = null;
+    protected $orderssScheduledForDeletion = null;
 
     /**
      * Initializes internal state of Base\ShippingAddress object.
@@ -789,7 +789,7 @@ abstract class ShippingAddress implements ActiveRecordInterface
         if ($deep) {  // also de-associate any related objects?
 
             $this->aUser = null;
-            $this->collOrders = null;
+            $this->collOrderss = null;
 
         } // if (deep)
     }
@@ -925,17 +925,17 @@ abstract class ShippingAddress implements ActiveRecordInterface
                 $this->resetModified();
             }
 
-            if ($this->ordersScheduledForDeletion !== null) {
-                if (!$this->ordersScheduledForDeletion->isEmpty()) {
-                    \OrderQuery::create()
-                        ->filterByPrimaryKeys($this->ordersScheduledForDeletion->getPrimaryKeys(false))
+            if ($this->orderssScheduledForDeletion !== null) {
+                if (!$this->orderssScheduledForDeletion->isEmpty()) {
+                    \OrdersQuery::create()
+                        ->filterByPrimaryKeys($this->orderssScheduledForDeletion->getPrimaryKeys(false))
                         ->delete($con);
-                    $this->ordersScheduledForDeletion = null;
+                    $this->orderssScheduledForDeletion = null;
                 }
             }
 
-                if ($this->collOrders !== null) {
-            foreach ($this->collOrders as $referrerFK) {
+                if ($this->collOrderss !== null) {
+            foreach ($this->collOrderss as $referrerFK) {
                     if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
                         $affectedRows += $referrerFK->save($con);
                     }
@@ -1160,8 +1160,8 @@ abstract class ShippingAddress implements ActiveRecordInterface
             if (null !== $this->aUser) {
                 $result['User'] = $this->aUser->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
-            if (null !== $this->collOrders) {
-                $result['Orders'] = $this->collOrders->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+            if (null !== $this->collOrderss) {
+                $result['Orderss'] = $this->collOrderss->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
         }
 
@@ -1348,9 +1348,9 @@ abstract class ShippingAddress implements ActiveRecordInterface
             // the getter/setter methods for fkey referrer objects.
             $copyObj->setNew(false);
 
-            foreach ($this->getOrders() as $relObj) {
+            foreach ($this->getOrderss() as $relObj) {
                 if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
-                    $copyObj->addOrder($relObj->copy($deepCopy));
+                    $copyObj->addOrders($relObj->copy($deepCopy));
                 }
             }
 
@@ -1446,37 +1446,37 @@ abstract class ShippingAddress implements ActiveRecordInterface
      */
     public function initRelation($relationName)
     {
-        if ('Order' == $relationName) {
-            return $this->initOrders();
+        if ('Orders' == $relationName) {
+            return $this->initOrderss();
         }
     }
 
     /**
-     * Clears out the collOrders collection
+     * Clears out the collOrderss collection
      *
      * This does not modify the database; however, it will remove any associated objects, causing
      * them to be refetched by subsequent calls to accessor method.
      *
      * @return void
-     * @see        addOrders()
+     * @see        addOrderss()
      */
-    public function clearOrders()
+    public function clearOrderss()
     {
-        $this->collOrders = null; // important to set this to NULL since that means it is uninitialized
+        $this->collOrderss = null; // important to set this to NULL since that means it is uninitialized
     }
 
     /**
-     * Reset is the collOrders collection loaded partially.
+     * Reset is the collOrderss collection loaded partially.
      */
-    public function resetPartialOrders($v = true)
+    public function resetPartialOrderss($v = true)
     {
-        $this->collOrdersPartial = $v;
+        $this->collOrderssPartial = $v;
     }
 
     /**
-     * Initializes the collOrders collection.
+     * Initializes the collOrderss collection.
      *
-     * By default this just sets the collOrders collection to an empty array (like clearcollOrders());
+     * By default this just sets the collOrderss collection to an empty array (like clearcollOrderss());
      * however, you may wish to override this method in your stub class to provide setting appropriate
      * to your application -- for example, setting the initial array to the values stored in database.
      *
@@ -1485,17 +1485,17 @@ abstract class ShippingAddress implements ActiveRecordInterface
      *
      * @return void
      */
-    public function initOrders($overrideExisting = true)
+    public function initOrderss($overrideExisting = true)
     {
-        if (null !== $this->collOrders && !$overrideExisting) {
+        if (null !== $this->collOrderss && !$overrideExisting) {
             return;
         }
-        $this->collOrders = new ObjectCollection();
-        $this->collOrders->setModel('\Order');
+        $this->collOrderss = new ObjectCollection();
+        $this->collOrderss->setModel('\Orders');
     }
 
     /**
-     * Gets an array of ChildOrder objects which contain a foreign key that references this object.
+     * Gets an array of ChildOrders objects which contain a foreign key that references this object.
      *
      * If the $criteria is not null, it is used to always fetch the results from the database.
      * Otherwise the results are fetched from the database the first time, then cached.
@@ -1505,109 +1505,109 @@ abstract class ShippingAddress implements ActiveRecordInterface
      *
      * @param      Criteria $criteria optional Criteria object to narrow the query
      * @param      ConnectionInterface $con optional connection object
-     * @return Collection|ChildOrder[] List of ChildOrder objects
+     * @return Collection|ChildOrders[] List of ChildOrders objects
      * @throws PropelException
      */
-    public function getOrders($criteria = null, ConnectionInterface $con = null)
+    public function getOrderss($criteria = null, ConnectionInterface $con = null)
     {
-        $partial = $this->collOrdersPartial && !$this->isNew();
-        if (null === $this->collOrders || null !== $criteria  || $partial) {
-            if ($this->isNew() && null === $this->collOrders) {
+        $partial = $this->collOrderssPartial && !$this->isNew();
+        if (null === $this->collOrderss || null !== $criteria  || $partial) {
+            if ($this->isNew() && null === $this->collOrderss) {
                 // return empty collection
-                $this->initOrders();
+                $this->initOrderss();
             } else {
-                $collOrders = ChildOrderQuery::create(null, $criteria)
+                $collOrderss = ChildOrdersQuery::create(null, $criteria)
                     ->filterByShippingAddress($this)
                     ->find($con);
 
                 if (null !== $criteria) {
-                    if (false !== $this->collOrdersPartial && count($collOrders)) {
-                        $this->initOrders(false);
+                    if (false !== $this->collOrderssPartial && count($collOrderss)) {
+                        $this->initOrderss(false);
 
-                        foreach ($collOrders as $obj) {
-                            if (false == $this->collOrders->contains($obj)) {
-                                $this->collOrders->append($obj);
+                        foreach ($collOrderss as $obj) {
+                            if (false == $this->collOrderss->contains($obj)) {
+                                $this->collOrderss->append($obj);
                             }
                         }
 
-                        $this->collOrdersPartial = true;
+                        $this->collOrderssPartial = true;
                     }
 
-                    reset($collOrders);
+                    reset($collOrderss);
 
-                    return $collOrders;
+                    return $collOrderss;
                 }
 
-                if ($partial && $this->collOrders) {
-                    foreach ($this->collOrders as $obj) {
+                if ($partial && $this->collOrderss) {
+                    foreach ($this->collOrderss as $obj) {
                         if ($obj->isNew()) {
-                            $collOrders[] = $obj;
+                            $collOrderss[] = $obj;
                         }
                     }
                 }
 
-                $this->collOrders = $collOrders;
-                $this->collOrdersPartial = false;
+                $this->collOrderss = $collOrderss;
+                $this->collOrderssPartial = false;
             }
         }
 
-        return $this->collOrders;
+        return $this->collOrderss;
     }
 
     /**
-     * Sets a collection of Order objects related by a one-to-many relationship
+     * Sets a collection of Orders objects related by a one-to-many relationship
      * to the current object.
      * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
      * and new objects from the given Propel collection.
      *
-     * @param      Collection $orders A Propel collection.
+     * @param      Collection $orderss A Propel collection.
      * @param      ConnectionInterface $con Optional connection object
      * @return   ChildShippingAddress The current object (for fluent API support)
      */
-    public function setOrders(Collection $orders, ConnectionInterface $con = null)
+    public function setOrderss(Collection $orderss, ConnectionInterface $con = null)
     {
-        $ordersToDelete = $this->getOrders(new Criteria(), $con)->diff($orders);
+        $orderssToDelete = $this->getOrderss(new Criteria(), $con)->diff($orderss);
 
 
-        $this->ordersScheduledForDeletion = $ordersToDelete;
+        $this->orderssScheduledForDeletion = $orderssToDelete;
 
-        foreach ($ordersToDelete as $orderRemoved) {
-            $orderRemoved->setShippingAddress(null);
+        foreach ($orderssToDelete as $ordersRemoved) {
+            $ordersRemoved->setShippingAddress(null);
         }
 
-        $this->collOrders = null;
-        foreach ($orders as $order) {
-            $this->addOrder($order);
+        $this->collOrderss = null;
+        foreach ($orderss as $orders) {
+            $this->addOrders($orders);
         }
 
-        $this->collOrders = $orders;
-        $this->collOrdersPartial = false;
+        $this->collOrderss = $orderss;
+        $this->collOrderssPartial = false;
 
         return $this;
     }
 
     /**
-     * Returns the number of related Order objects.
+     * Returns the number of related Orders objects.
      *
      * @param      Criteria $criteria
      * @param      boolean $distinct
      * @param      ConnectionInterface $con
-     * @return int             Count of related Order objects.
+     * @return int             Count of related Orders objects.
      * @throws PropelException
      */
-    public function countOrders(Criteria $criteria = null, $distinct = false, ConnectionInterface $con = null)
+    public function countOrderss(Criteria $criteria = null, $distinct = false, ConnectionInterface $con = null)
     {
-        $partial = $this->collOrdersPartial && !$this->isNew();
-        if (null === $this->collOrders || null !== $criteria || $partial) {
-            if ($this->isNew() && null === $this->collOrders) {
+        $partial = $this->collOrderssPartial && !$this->isNew();
+        if (null === $this->collOrderss || null !== $criteria || $partial) {
+            if ($this->isNew() && null === $this->collOrderss) {
                 return 0;
             }
 
             if ($partial && !$criteria) {
-                return count($this->getOrders());
+                return count($this->getOrderss());
             }
 
-            $query = ChildOrderQuery::create(null, $criteria);
+            $query = ChildOrdersQuery::create(null, $criteria);
             if ($distinct) {
                 $query->distinct();
             }
@@ -1617,53 +1617,53 @@ abstract class ShippingAddress implements ActiveRecordInterface
                 ->count($con);
         }
 
-        return count($this->collOrders);
+        return count($this->collOrderss);
     }
 
     /**
-     * Method called to associate a ChildOrder object to this object
-     * through the ChildOrder foreign key attribute.
+     * Method called to associate a ChildOrders object to this object
+     * through the ChildOrders foreign key attribute.
      *
-     * @param    ChildOrder $l ChildOrder
+     * @param    ChildOrders $l ChildOrders
      * @return   \ShippingAddress The current object (for fluent API support)
      */
-    public function addOrder(ChildOrder $l)
+    public function addOrders(ChildOrders $l)
     {
-        if ($this->collOrders === null) {
-            $this->initOrders();
-            $this->collOrdersPartial = true;
+        if ($this->collOrderss === null) {
+            $this->initOrderss();
+            $this->collOrderssPartial = true;
         }
 
-        if (!in_array($l, $this->collOrders->getArrayCopy(), true)) { // only add it if the **same** object is not already associated
-            $this->doAddOrder($l);
+        if (!in_array($l, $this->collOrderss->getArrayCopy(), true)) { // only add it if the **same** object is not already associated
+            $this->doAddOrders($l);
         }
 
         return $this;
     }
 
     /**
-     * @param Order $order The order object to add.
+     * @param Orders $orders The orders object to add.
      */
-    protected function doAddOrder($order)
+    protected function doAddOrders($orders)
     {
-        $this->collOrders[]= $order;
-        $order->setShippingAddress($this);
+        $this->collOrderss[]= $orders;
+        $orders->setShippingAddress($this);
     }
 
     /**
-     * @param  Order $order The order object to remove.
+     * @param  Orders $orders The orders object to remove.
      * @return ChildShippingAddress The current object (for fluent API support)
      */
-    public function removeOrder($order)
+    public function removeOrders($orders)
     {
-        if ($this->getOrders()->contains($order)) {
-            $this->collOrders->remove($this->collOrders->search($order));
-            if (null === $this->ordersScheduledForDeletion) {
-                $this->ordersScheduledForDeletion = clone $this->collOrders;
-                $this->ordersScheduledForDeletion->clear();
+        if ($this->getOrderss()->contains($orders)) {
+            $this->collOrderss->remove($this->collOrderss->search($orders));
+            if (null === $this->orderssScheduledForDeletion) {
+                $this->orderssScheduledForDeletion = clone $this->collOrderss;
+                $this->orderssScheduledForDeletion->clear();
             }
-            $this->ordersScheduledForDeletion[]= clone $order;
-            $order->setShippingAddress(null);
+            $this->orderssScheduledForDeletion[]= clone $orders;
+            $orders->setShippingAddress(null);
         }
 
         return $this;
@@ -1675,7 +1675,7 @@ abstract class ShippingAddress implements ActiveRecordInterface
      * an identical criteria, it returns the collection.
      * Otherwise if this ShippingAddress is new, it will return
      * an empty collection; or if this ShippingAddress has previously
-     * been saved, it will retrieve related Orders from storage.
+     * been saved, it will retrieve related Orderss from storage.
      *
      * This method is protected by default in order to keep the public
      * api reasonable.  You can provide public methods for those you
@@ -1684,14 +1684,14 @@ abstract class ShippingAddress implements ActiveRecordInterface
      * @param      Criteria $criteria optional Criteria object to narrow the query
      * @param      ConnectionInterface $con optional connection object
      * @param      string $joinBehavior optional join type to use (defaults to Criteria::LEFT_JOIN)
-     * @return Collection|ChildOrder[] List of ChildOrder objects
+     * @return Collection|ChildOrders[] List of ChildOrders objects
      */
-    public function getOrdersJoinUser($criteria = null, $con = null, $joinBehavior = Criteria::LEFT_JOIN)
+    public function getOrderssJoinUser($criteria = null, $con = null, $joinBehavior = Criteria::LEFT_JOIN)
     {
-        $query = ChildOrderQuery::create(null, $criteria);
+        $query = ChildOrdersQuery::create(null, $criteria);
         $query->joinWith('User', $joinBehavior);
 
-        return $this->getOrders($query, $con);
+        return $this->getOrderss($query, $con);
     }
 
 
@@ -1700,7 +1700,7 @@ abstract class ShippingAddress implements ActiveRecordInterface
      * an identical criteria, it returns the collection.
      * Otherwise if this ShippingAddress is new, it will return
      * an empty collection; or if this ShippingAddress has previously
-     * been saved, it will retrieve related Orders from storage.
+     * been saved, it will retrieve related Orderss from storage.
      *
      * This method is protected by default in order to keep the public
      * api reasonable.  You can provide public methods for those you
@@ -1709,14 +1709,14 @@ abstract class ShippingAddress implements ActiveRecordInterface
      * @param      Criteria $criteria optional Criteria object to narrow the query
      * @param      ConnectionInterface $con optional connection object
      * @param      string $joinBehavior optional join type to use (defaults to Criteria::LEFT_JOIN)
-     * @return Collection|ChildOrder[] List of ChildOrder objects
+     * @return Collection|ChildOrders[] List of ChildOrders objects
      */
-    public function getOrdersJoinBilling($criteria = null, $con = null, $joinBehavior = Criteria::LEFT_JOIN)
+    public function getOrderssJoinBilling($criteria = null, $con = null, $joinBehavior = Criteria::LEFT_JOIN)
     {
-        $query = ChildOrderQuery::create(null, $criteria);
+        $query = ChildOrdersQuery::create(null, $criteria);
         $query->joinWith('Billing', $joinBehavior);
 
-        return $this->getOrders($query, $con);
+        return $this->getOrderss($query, $con);
     }
 
     /**
@@ -1751,14 +1751,14 @@ abstract class ShippingAddress implements ActiveRecordInterface
     public function clearAllReferences($deep = false)
     {
         if ($deep) {
-            if ($this->collOrders) {
-                foreach ($this->collOrders as $o) {
+            if ($this->collOrderss) {
+                foreach ($this->collOrderss as $o) {
                     $o->clearAllReferences($deep);
                 }
             }
         } // if ($deep)
 
-        $this->collOrders = null;
+        $this->collOrderss = null;
         $this->aUser = null;
     }
 

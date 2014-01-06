@@ -4,9 +4,9 @@ namespace Base;
 
 use \Item as ChildItem;
 use \ItemQuery as ChildItemQuery;
-use \Order as ChildOrder;
 use \OrderItemsQuery as ChildOrderItemsQuery;
-use \OrderQuery as ChildOrderQuery;
+use \Orders as ChildOrders;
+use \OrdersQuery as ChildOrdersQuery;
 use \Exception;
 use \PDO;
 use Map\OrderItemsTableMap;
@@ -85,9 +85,9 @@ abstract class OrderItems implements ActiveRecordInterface
     protected $aItem;
 
     /**
-     * @var        Order
+     * @var        Orders
      */
-    protected $aOrder;
+    protected $aOrders;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced
@@ -458,8 +458,8 @@ abstract class OrderItems implements ActiveRecordInterface
             $this->modifiedColumns[OrderItemsTableMap::ORDER_ID] = true;
         }
 
-        if ($this->aOrder !== null && $this->aOrder->getOrderId() !== $v) {
-            $this->aOrder = null;
+        if ($this->aOrders !== null && $this->aOrders->getOrderId() !== $v) {
+            $this->aOrders = null;
         }
 
 
@@ -569,8 +569,8 @@ abstract class OrderItems implements ActiveRecordInterface
      */
     public function ensureConsistency()
     {
-        if ($this->aOrder !== null && $this->order_id !== $this->aOrder->getOrderId()) {
-            $this->aOrder = null;
+        if ($this->aOrders !== null && $this->order_id !== $this->aOrders->getOrderId()) {
+            $this->aOrders = null;
         }
         if ($this->aItem !== null && $this->item_id !== $this->aItem->getItemId()) {
             $this->aItem = null;
@@ -615,7 +615,7 @@ abstract class OrderItems implements ActiveRecordInterface
         if ($deep) {  // also de-associate any related objects?
 
             $this->aItem = null;
-            $this->aOrder = null;
+            $this->aOrders = null;
         } // if (deep)
     }
 
@@ -739,11 +739,11 @@ abstract class OrderItems implements ActiveRecordInterface
                 $this->setItem($this->aItem);
             }
 
-            if ($this->aOrder !== null) {
-                if ($this->aOrder->isModified() || $this->aOrder->isNew()) {
-                    $affectedRows += $this->aOrder->save($con);
+            if ($this->aOrders !== null) {
+                if ($this->aOrders->isModified() || $this->aOrders->isNew()) {
+                    $affectedRows += $this->aOrders->save($con);
                 }
-                $this->setOrder($this->aOrder);
+                $this->setOrders($this->aOrders);
             }
 
             if ($this->isNew() || $this->isModified()) {
@@ -935,8 +935,8 @@ abstract class OrderItems implements ActiveRecordInterface
             if (null !== $this->aItem) {
                 $result['Item'] = $this->aItem->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
-            if (null !== $this->aOrder) {
-                $result['Order'] = $this->aOrder->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+            if (null !== $this->aOrders) {
+                $result['Orders'] = $this->aOrders->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
         }
 
@@ -1173,13 +1173,13 @@ abstract class OrderItems implements ActiveRecordInterface
     }
 
     /**
-     * Declares an association between this object and a ChildOrder object.
+     * Declares an association between this object and a ChildOrders object.
      *
-     * @param                  ChildOrder $v
+     * @param                  ChildOrders $v
      * @return                 \OrderItems The current object (for fluent API support)
      * @throws PropelException
      */
-    public function setOrder(ChildOrder $v = null)
+    public function setOrders(ChildOrders $v = null)
     {
         if ($v === null) {
             $this->setOrderId(NULL);
@@ -1187,10 +1187,10 @@ abstract class OrderItems implements ActiveRecordInterface
             $this->setOrderId($v->getOrderId());
         }
 
-        $this->aOrder = $v;
+        $this->aOrders = $v;
 
         // Add binding for other direction of this n:n relationship.
-        // If this object has already been added to the ChildOrder object, it will not be re-added.
+        // If this object has already been added to the ChildOrders object, it will not be re-added.
         if ($v !== null) {
             $v->addOrderItems($this);
         }
@@ -1201,26 +1201,26 @@ abstract class OrderItems implements ActiveRecordInterface
 
 
     /**
-     * Get the associated ChildOrder object
+     * Get the associated ChildOrders object
      *
      * @param      ConnectionInterface $con Optional Connection object.
-     * @return                 ChildOrder The associated ChildOrder object.
+     * @return                 ChildOrders The associated ChildOrders object.
      * @throws PropelException
      */
-    public function getOrder(ConnectionInterface $con = null)
+    public function getOrders(ConnectionInterface $con = null)
     {
-        if ($this->aOrder === null && ($this->order_id !== null)) {
-            $this->aOrder = ChildOrderQuery::create()->findPk($this->order_id, $con);
+        if ($this->aOrders === null && ($this->order_id !== null)) {
+            $this->aOrders = ChildOrdersQuery::create()->findPk($this->order_id, $con);
             /* The following can be used additionally to
                 guarantee the related object contains a reference
                 to this object.  This level of coupling may, however, be
                 undesirable since it could result in an only partially populated collection
                 in the referenced object.
-                $this->aOrder->addOrderItemss($this);
+                $this->aOrders->addOrderItemss($this);
              */
         }
 
-        return $this->aOrder;
+        return $this->aOrders;
     }
 
     /**
@@ -1254,7 +1254,7 @@ abstract class OrderItems implements ActiveRecordInterface
         } // if ($deep)
 
         $this->aItem = null;
-        $this->aOrder = null;
+        $this->aOrders = null;
     }
 
     /**

@@ -1312,10 +1312,10 @@ abstract class Decoration implements ActiveRecordInterface
      * @param      string $joinBehavior optional join type to use (defaults to Criteria::LEFT_JOIN)
      * @return Collection|ChildCustomItem[] List of ChildCustomItem objects
      */
-    public function getCustomItemsJoinOrder($criteria = null, $con = null, $joinBehavior = Criteria::LEFT_JOIN)
+    public function getCustomItemsJoinOrders($criteria = null, $con = null, $joinBehavior = Criteria::LEFT_JOIN)
     {
         $query = ChildCustomItemQuery::create(null, $criteria);
-        $query->joinWith('Order', $joinBehavior);
+        $query->joinWith('Orders', $joinBehavior);
 
         return $this->getCustomItems($query, $con);
     }

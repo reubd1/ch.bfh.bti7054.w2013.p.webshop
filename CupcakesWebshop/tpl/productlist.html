@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="product.css" type="text/css" rel="stylesheet">
+</head>
+<body>
+
+	<div id="main">
+		<!-- Defining submain content section -->
+
+		<section id="content"><!-- Defining the content section #2 -->
+
+		<div id="left">
+			<h3>Products</h3>
+			<ul>
+				{loop="items"}
+				<li>
+					<div class="img">
+						<a href=""><img alt="" src="{$value->getImage()}"></a>
+					</div>
+					<div class="info">
+						<a class="title" href="#">{$value->getName()}</a>
+						{if="$value->getItemDescriptions()[0]->getLanguage() == $lang"}
+						<p>{$value->getItemDescriptions()[0]->getText()}</p>
+						{/if} {if="$value->getItemDescriptions()[1]->getLanguage() ==
+						$lang"}
+						<p>{$value->getItemDescriptions()[1]->getText()}</p>
+						{/if}
+						<div class="price">
+							<span class="st">{$cartprice}</span><strong>CHF
+								{$value->getPrice()}.-</strong>
+						</div>
+						<div class="actions">
+							<form action={$key} method="post">
+								<input type="text" name="quantity" size="5" value="1" />
+								<input type="submit" value="{$cartbutton}" />
+							</form>
+							{if="$add==true"}
+							<script type="text/javascript">
+								document.getElementById('light').style.display = 'block';
+								document.getElementById('fade').style.display = 'block'
+							</script>
+							<div id="light" class="white_content">
+								The product has been sucessfully added to your cart<br><a
+									href="cart.php?action=cart"
+									onclick="document.getElementById('light').style.display='none';document.getElementById('fade').style.display='none'">go
+										to cart</a><br><br> <a href="main.php"
+											onclick="document.getElementById('light').style.display='none';document.getElementById('fade').style.display='none'">go
+												back to Products</a>
+							</div>
+							<div id="fade" class="black_overlay"></div>
+							{/if}
+						</div>
+					</div>
+				</li> {/loop}
+			</ul>
+		</div>
+		</section>
+	</div>
+</body>
+</html>
+

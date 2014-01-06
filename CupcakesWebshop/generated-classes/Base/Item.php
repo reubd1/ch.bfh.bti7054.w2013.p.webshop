@@ -1835,10 +1835,10 @@ abstract class Item implements ActiveRecordInterface
      * @param      string $joinBehavior optional join type to use (defaults to Criteria::LEFT_JOIN)
      * @return Collection|ChildOrderItems[] List of ChildOrderItems objects
      */
-    public function getOrderItemssJoinOrder($criteria = null, $con = null, $joinBehavior = Criteria::LEFT_JOIN)
+    public function getOrderItemssJoinOrders($criteria = null, $con = null, $joinBehavior = Criteria::LEFT_JOIN)
     {
         $query = ChildOrderItemsQuery::create(null, $criteria);
-        $query->joinWith('Order', $joinBehavior);
+        $query->joinWith('Orders', $joinBehavior);
 
         return $this->getOrderItemss($query, $con);
     }

@@ -1,0 +1,38 @@
+<script language="JavaScript1.2">
+	
+
+var testresults
+function checkemail(){
+var str=document.validation.emailcheck.value
+var filter=/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i
+if (filter.test(str))
+testresults=true
+else{
+alert("Please input a valid email address!")
+testresults=false
+}
+return (testresults)
+}
+
+</script>
+
+<script>
+	function checkbae() {
+		if (document.layers || document.getElementById || document.all)
+			return checkemail()
+		else
+			return true
+	}
+</script>
+
+<form action="register.php" method="post" onSubmit="return checkbae()">
+	Username:<br> <input type="text" size="24" maxlength="50"
+		name="username"><br>
+	<br> Passwort:<br> <input type="password" size="24"
+		maxlength="50" name="passwort"><br> Passwort wiederholen:<br>
+	<input type="password" size="24" maxlength="50" name="passwort2"><br>
+
+	Email:<br> <input type="text" size="24" maxlength="50"
+		name="emailcheck"><br> <input type="submit"
+		value="Abschicken">
+</form>

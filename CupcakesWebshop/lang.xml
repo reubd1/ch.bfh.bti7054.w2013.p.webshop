@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lan>
+	<language id="DE">
+		<loctext id="MENU_CUSTOM">
+			<text>selber kreieren</text>
+		</loctext>
+		<loctext id="MENU_CART">
+			<text>Warenkorb</text>
+		</loctext>
+		<loctext id="CART_PRICE">
+			<text>Unser Preis: </text>
+		</loctext>
+		<loctext id="CART_BUTTON">
+			<text>in Warenkorb</text>
+		</loctext>
+		<loctext id="SEARCH">
+			<text>suche nach Cupcakes</text>
+		</loctext>
+		<loctext id="CART_PRICE">
+			<text>Preis</text>
+		</loctext>
+		<loctext id="CART_QTY">
+			<text>Menge</text>
+		</loctext>
+		<loctext id="CART_DELETE">
+			<text>löschen</text>
+		</loctext>
+		<loctext id="CART_CLEAR">
+			<text>Warenkorbinhalt löschen</text>
+		</loctext>
+		<loctext id="CART_BACK">
+			<text>zurück um weitere Cupcakes zu kaufen</text>
+		</loctext>
+	</language>
+	<language id="EN">
+		<loctext id="MENU_CUSTOM">
+			<text>customize</text>
+		</loctext>
+		<loctext id="MENU_CART">
+			<text>Cart</text>
+		</loctext>
+		<loctext id="CART_PRICE">
+			<text>Our Price: </text>
+		</loctext>
+		<loctext id="CART_BUTTON">
+			<text>add to chart</text>
+		</loctext>
+		<loctext id="SEARCH">
+			<text>search for cupcakes</text>
+		</loctext>
+		<loctext id="CART_PRICE">
+			<text>Price</text>
+		</loctext>
+		<loctext id="CART_QTY">
+			<text>Quantity</text>
+		</loctext>
+		<loctext id="CART_DELETE">
+			<text>delete</text>
+		</loctext>
+		<loctext id="CART_CLEAR">
+			<text>clear chart</text>
+		</loctext>
+		<loctext id="CART_BACK">
+			<text>go back to buy more delicious cupcakes</text>
+		</loctext>
+	</language>
+</lan>

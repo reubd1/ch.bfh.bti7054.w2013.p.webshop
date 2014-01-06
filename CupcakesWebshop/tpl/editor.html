@@ -1,0 +1,152 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+       "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<style type="text/css">
+<style>
+.black_overlay {
+	display: none;
+	position: absolute;
+	top: 0%;
+	left: 0%;
+	width: 100%;
+	height: 100%;
+	background-color: black;
+	z-index: 1001;
+	-moz-opacity: 0.8;
+	opacity: .80;
+	filter: alpha(opacity =       80);
+}
+
+.white_content {
+	display: none;
+	position: absolute;
+	top: 25%;
+	left: 25%;
+	width: 50%;
+	height: 50%;
+	padding: 16px;
+	border: 16px solid orange;
+	background-color: white;
+	z-index: 1002;
+	overflow: auto;
+}
+fieldset {
+	border: 2px solid #339999;
+	border-radius: 6px;
+	padding: 5px;
+	background: white;
+	width: 90%;
+}
+
+p.errormessage {
+	color: #cc0000;
+	margin: 0px;
+}
+</style>
+</head>
+<body>
+
+	<p class="errormessage">{$error_general}</p>
+	<form id="editor" name="editor" action="editorMain.php?action=addcustom"
+		method="post" enctype="text/html">
+		<fieldset>
+			<legend>Cake</legend>
+			<ul>
+				<li style="list-style: none;"><input type="radio" name="size"
+					value="small" /> klein <input type="radio" name="size"
+					value="medium" />mittel <input type="radio" name="size"
+					value="large" />gross</li>
+			</ul>
+			<br> Bitte w&auml;hle hier ein Aroma:<br> <br>
+			{loop="cake"} <input type="radio" name="cake"
+				value="{$value->getCakeId()}" /> {$value->getName()}<br>
+			{/loop} <br> <br>
+		</fieldset>
+
+		<fieldset>
+			<legend>Topping</legend>
+			<p>Bitte w&auml;hle das Topping:</p>
+			<br> {loop="topping"} <input type="radio" name="topping"
+				value="{$value->getToppingId()}" /> {$value->getName()}<br>
+			{/loop} <br> <br>
+		</fieldset>
+
+		<fieldset>
+			<legend>Deko</legend>
+			<p>Bitte w&auml;hle die Deko:</p>
+			<br> {loop="decoration"} <input type="radio" name="deco"
+				value="{$value->getDecoId()}" /> {$value->getName()}<br>
+			{/loop} <br> <br>
+		</fieldset>
+
+		<fieldset>
+			<legend>Abschluss</legend>
+			<p>Bitte definiere nun noch einen Namen und die Anzahl:</p>
+			<br> Name: <input name="item" type="text" size="30"
+				maxlength="30">
+			<p class="errormessage">{$error_name}</p>
+			<br> <br> Anzahl: <input name="quantity" type="text"
+				size="5" maxlength="5">
+			<p class="errormessage">{$error_quantity}</p>
+			<input name="price" type="hidden" value="3"> à CHF 3.-/stk. <br>
+			<br>
+		</fieldset>
+		<br> <input type="submit" name="SUBMIT" value="add to Cart"
+			class="button" />
+	</form>
+	{if="$addcustom==true"}
+	<script type="text/javascript">
+		document.getElementById('light').style.display = 'block';
+		document.getElementById('fade').style.display = 'block'
+	</script>
+	<div id="light" class="white_content">
+		The product has been sucessfully added to your cart<br>
+		<a href="cart.php?action=cart"
+			onclick="document.getElementById('light').style.display='none';document.getElementById('fade').style.display='none'">go
+			to cart</a><br>
+		<br> <a href="editorMain.php"
+			onclick="document.getElementById('light').style.display='none';document.getElementById('fade').style.display='none'">go
+			back to Products</a>
+	</div>
+	<div id="fade" class="black_overlay"></div>
+	{/if}
+
+	<object id="FlashID"
+		classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="800"
+		height="600">
+		<param name="movie"
+			value="http://www.dolldivine.com/games/cupcake-maker.swf" />
+		<param name="quality" value="high" />
+		<param name="wmode" value="opaque" />
+		<param name="swfversion" value="9.0.45.0" />
+		<!-- This param tag prompts users with Flash Player 6.0 r65 and higher to download the latest version of Flash Player. Delete it if you don’t want users to see the prompt. -->
+		<param name="expressinstall"
+			value="http://www.dolldivine.com/Scripts/expressInstall.swf" />
+		<!-- Next object tag is for non-IE browsers. So hide it from IE using IECC. -->
+		<!--[if !IE]>-->
+		<object type="application/x-shockwave-flash"
+			data="http://www.dolldivine.com/games/cupcake-maker.swf" width="800"
+			height="600">
+			<!--<![endif]-->
+			<param name="quality" value="high" />
+			<param name="wmode" value="opaque" />
+			<param name="swfversion" value="9.0.45.0" />
+			<param name="expressinstall" value="../Scripts/expressInstall.swf" />
+			<!-- The browser displays the following alternative content for users with Flash Player 6.0 and older. -->
+			<div>
+				<h4>Content on this page requires a newer version of Adobe
+					Flash Player.</h4>
+				<p>
+					<a href="http://www.adobe.com/go/getflashplayer"><img
+						src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif"
+						alt="Get Adobe Flash player" width="112" height="33" /></a>
+				</p>
+			</div>
+			<!--[if !IE]>-->
+		</object>
+		<!--<![endif]-->
+	</object>
+
+</body>
+</html>

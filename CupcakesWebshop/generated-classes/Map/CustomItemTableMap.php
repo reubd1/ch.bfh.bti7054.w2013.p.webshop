@@ -152,7 +152,7 @@ class CustomItemTableMap extends TableMap
         // columns
         $this->addPrimaryKey('CUSTOM_ITEM_ID', 'CustomItemId', 'INTEGER', true, null, null);
         $this->addColumn('NAME', 'Name', 'VARCHAR', true, 45, null);
-        $this->addForeignKey('ORDER_ID', 'OrderId', 'INTEGER', 'order', 'ORDER_ID', true, null, null);
+        $this->addForeignKey('ORDER_ID', 'OrderId', 'INTEGER', 'orders', 'ORDER_ID', true, null, null);
         $this->addForeignKey('CAKE_ID', 'CakeId', 'INTEGER', 'cake', 'CAKE_ID', true, null, null);
         $this->addForeignKey('TOPPING_ID', 'ToppingId', 'INTEGER', 'topping', 'TOPPING_ID', true, null, null);
         $this->addForeignKey('DECO_ID', 'DecoId', 'INTEGER', 'decoration', 'DECO_ID', true, null, null);
@@ -163,7 +163,7 @@ class CustomItemTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('Order', '\\Order', RelationMap::MANY_TO_ONE, array('order_id' => 'order_id', ), null, null);
+        $this->addRelation('Orders', '\\Orders', RelationMap::MANY_TO_ONE, array('order_id' => 'order_id', ), null, null);
         $this->addRelation('Cake', '\\Cake', RelationMap::MANY_TO_ONE, array('cake_id' => 'cake_id', ), null, null);
         $this->addRelation('Topping', '\\Topping', RelationMap::MANY_TO_ONE, array('topping_id' => 'topping_id', ), null, null);
         $this->addRelation('Decoration', '\\Decoration', RelationMap::MANY_TO_ONE, array('deco_id' => 'deco_id', ), null, null);

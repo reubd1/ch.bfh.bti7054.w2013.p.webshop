@@ -32,11 +32,11 @@
     <foreign-key foreignTable="item">
       <reference local="item_id" foreign="item_id"/>
     </foreign-key>
-    <foreign-key foreignTable="order">
+    <foreign-key foreignTable="orders">
       <reference local="order_id" foreign="order_id"/>
     </foreign-key>
   </table>
-  <table name="order" phpName="Order">
+  <table name="orders" phpName="Orders">
     <column name="order_id" type="integer" required="true" primaryKey="true" autoIncrement="true"/>
     <column name="total" type="float"  required="true" />
 <column name="order_date" type="date"  required="true" />
@@ -90,7 +90,7 @@
 <column name="cake_id" type="integer" required="true"/>
 <column name="topping_id" type="integer" required="true"/>
 <column name="deco_id" type="integer" required="true"/>
-    <foreign-key foreignTable="order">
+    <foreign-key foreignTable="orders">
       <reference local="order_id" foreign="order_id"/>
     </foreign-key>
     <foreign-key foreignTable="cake">

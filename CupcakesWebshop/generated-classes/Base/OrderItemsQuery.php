@@ -39,9 +39,9 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildOrderItemsQuery rightJoinItem($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Item relation
  * @method     ChildOrderItemsQuery innerJoinItem($relationAlias = null) Adds a INNER JOIN clause to the query using the Item relation
  *
- * @method     ChildOrderItemsQuery leftJoinOrder($relationAlias = null) Adds a LEFT JOIN clause to the query using the Order relation
- * @method     ChildOrderItemsQuery rightJoinOrder($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Order relation
- * @method     ChildOrderItemsQuery innerJoinOrder($relationAlias = null) Adds a INNER JOIN clause to the query using the Order relation
+ * @method     ChildOrderItemsQuery leftJoinOrders($relationAlias = null) Adds a LEFT JOIN clause to the query using the Orders relation
+ * @method     ChildOrderItemsQuery rightJoinOrders($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Orders relation
+ * @method     ChildOrderItemsQuery innerJoinOrders($relationAlias = null) Adds a INNER JOIN clause to the query using the Orders relation
  *
  * @method     ChildOrderItems findOne(ConnectionInterface $con = null) Return the first ChildOrderItems matching the query
  * @method     ChildOrderItems findOneOrCreate(ConnectionInterface $con = null) Return the first ChildOrderItems matching the query, or a new ChildOrderItems object populated from the query conditions when no match is found
@@ -324,7 +324,7 @@ abstract class OrderItemsQuery extends ModelCriteria
      * $query->filterByOrderId(array('min' => 12)); // WHERE order_id > 12
      * </code>
      *
-     * @see       filterByOrder()
+     * @see       filterByOrders()
      *
      * @param     mixed $orderId The value to use as filter.
      *              Use scalar values for equality.
@@ -476,42 +476,42 @@ abstract class OrderItemsQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query by a related \Order object
+     * Filter the query by a related \Orders object
      *
-     * @param \Order|ObjectCollection $order The related object(s) to use as filter
+     * @param \Orders|ObjectCollection $orders The related object(s) to use as filter
      * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return ChildOrderItemsQuery The current query, for fluid interface
      */
-    public function filterByOrder($order, $comparison = null)
+    public function filterByOrders($orders, $comparison = null)
     {
-        if ($order instanceof \Order) {
+        if ($orders instanceof \Orders) {
             return $this
-                ->addUsingAlias(OrderItemsTableMap::ORDER_ID, $order->getOrderId(), $comparison);
-        } elseif ($order instanceof ObjectCollection) {
+                ->addUsingAlias(OrderItemsTableMap::ORDER_ID, $orders->getOrderId(), $comparison);
+        } elseif ($orders instanceof ObjectCollection) {
             if (null === $comparison) {
                 $comparison = Criteria::IN;
             }
 
             return $this
-                ->addUsingAlias(OrderItemsTableMap::ORDER_ID, $order->toKeyValue('PrimaryKey', 'OrderId'), $comparison);
+                ->addUsingAlias(OrderItemsTableMap::ORDER_ID, $orders->toKeyValue('PrimaryKey', 'OrderId'), $comparison);
         } else {
-            throw new PropelException('filterByOrder() only accepts arguments of type \Order or Collection');
+            throw new PropelException('filterByOrders() only accepts arguments of type \Orders or Collection');
         }
     }
 
     /**
-     * Adds a JOIN clause to the query using the Order relation
+     * Adds a JOIN clause to the query using the Orders relation
      *
      * @param     string $relationAlias optional alias for the relation
      * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
      * @return ChildOrderItemsQuery The current query, for fluid interface
      */
-    public function joinOrder($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    public function joinOrders($relationAlias = null, $joinType = Criteria::INNER_JOIN)
     {
         $tableMap = $this->getTableMap();
-        $relationMap = $tableMap->getRelation('Order');
+        $relationMap = $tableMap->getRelation('Orders');
 
         // create a ModelJoin object for this join
         $join = new ModelJoin();
@@ -526,14 +526,14 @@ abstract class OrderItemsQuery extends ModelCriteria
             $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
             $this->addJoinObject($join, $relationAlias);
         } else {
-            $this->addJoinObject($join, 'Order');
+            $this->addJoinObject($join, 'Orders');
         }
 
         return $this;
     }
 
     /**
-     * Use the Order relation Order object
+     * Use the Orders relation Orders object
      *
      * @see useQuery()
      *
@@ -541,13 +541,13 @@ abstract class OrderItemsQuery extends ModelCriteria
      *                                   to be used as main alias in the secondary query
      * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
-     * @return   \OrderQuery A secondary query class using the current class as primary query
+     * @return   \OrdersQuery A secondary query class using the current class as primary query
      */
-    public function useOrderQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    public function useOrdersQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
     {
         return $this
-            ->joinOrder($relationAlias, $joinType)
-            ->useQuery($relationAlias ? $relationAlias : 'Order', '\OrderQuery');
+            ->joinOrders($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'Orders', '\OrdersQuery');
     }
 
     /**

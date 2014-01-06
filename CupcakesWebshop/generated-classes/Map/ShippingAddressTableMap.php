@@ -176,7 +176,7 @@ class ShippingAddressTableMap extends TableMap
     public function buildRelations()
     {
         $this->addRelation('User', '\\User', RelationMap::MANY_TO_ONE, array('user_id' => 'user_id', ), null, null);
-        $this->addRelation('Order', '\\Order', RelationMap::ONE_TO_MANY, array('shipping_id' => 'shipping_id', ), null, null, 'Orders');
+        $this->addRelation('Orders', '\\Orders', RelationMap::ONE_TO_MANY, array('shipping_id' => 'shipping_id', ), null, null, 'Orderss');
     } // buildRelations()
 
     /**

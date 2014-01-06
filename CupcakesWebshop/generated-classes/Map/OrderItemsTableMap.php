@@ -142,7 +142,7 @@ class OrderItemsTableMap extends TableMap
         // columns
         $this->addPrimaryKey('ORDER_ITEMS_ID', 'OrderItemsId', 'INTEGER', true, null, null);
         $this->addColumn('AMOUNT', 'Amount', 'INTEGER', true, null, null);
-        $this->addForeignKey('ORDER_ID', 'OrderId', 'INTEGER', 'order', 'ORDER_ID', true, null, null);
+        $this->addForeignKey('ORDER_ID', 'OrderId', 'INTEGER', 'orders', 'ORDER_ID', true, null, null);
         $this->addForeignKey('ITEM_ID', 'ItemId', 'INTEGER', 'item', 'ITEM_ID', true, null, null);
     } // initialize()
 
@@ -152,7 +152,7 @@ class OrderItemsTableMap extends TableMap
     public function buildRelations()
     {
         $this->addRelation('Item', '\\Item', RelationMap::MANY_TO_ONE, array('item_id' => 'item_id', ), null, null);
-        $this->addRelation('Order', '\\Order', RelationMap::MANY_TO_ONE, array('order_id' => 'order_id', ), null, null);
+        $this->addRelation('Orders', '\\Orders', RelationMap::MANY_TO_ONE, array('order_id' => 'order_id', ), null, null);
     } // buildRelations()
 
     /**

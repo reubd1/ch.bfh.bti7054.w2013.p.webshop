@@ -151,7 +151,7 @@ class UserTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('Order', '\\Order', RelationMap::ONE_TO_MANY, array('user_id' => 'user_id', ), null, null, 'Orders');
+        $this->addRelation('Orders', '\\Orders', RelationMap::ONE_TO_MANY, array('user_id' => 'user_id', ), null, null, 'Orderss');
         $this->addRelation('Billing', '\\Billing', RelationMap::ONE_TO_MANY, array('user_id' => 'user_id', ), null, null, 'Billings');
         $this->addRelation('ShippingAddress', '\\ShippingAddress', RelationMap::ONE_TO_MANY, array('user_id' => 'user_id', ), null, null, 'ShippingAddresses');
     } // buildRelations()
