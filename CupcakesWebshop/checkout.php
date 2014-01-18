@@ -1,4 +1,10 @@
 <?php
+/**
+ * This file is used for the checkout process and updates the quantity of items
+ *
+ * @version    1.0
+ * @author     Original Author <reubd1@bfh.ch>
+ */
 include("ShoppingCart.inc.php");
 include("CartItem.inc.php");
 include 'functions.php';

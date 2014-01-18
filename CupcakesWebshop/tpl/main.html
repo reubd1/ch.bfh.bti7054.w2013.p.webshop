@@ -3,7 +3,7 @@
 <head>
 <title>Simple Personal</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link rel="stylesheet" href="navi.css" type="text/css"
+<link rel="stylesheet" href="cupcake_style.css" type="text/css"
 	media="screen, projection, tv" />
 <link href="login.css" type="text/css" rel="stylesheet">
 <style>
@@ -48,12 +48,11 @@
 	height: 5px;
 }
 
-#res {
+#ergebnis {
 	position: absolute;
-	width: 210px;
-	padding: 5px;
-	display: none;
-	margin-top: -1px;
+	margin:0px;
+	padding:0px;
+	width: 220px;
 	border-top: 0px;
 	overflow: hidden;
 	border: 1px #CCC solid;
@@ -68,7 +67,7 @@
 }
 
 .show:hover {
-	background: #339999;
+	background: #EEEEEE;
 	color: #FFF;
 	cursor: pointer;
 }
@@ -76,14 +75,12 @@
 
 <!-- JS File for Twitter Message Expand/Collapse -->
 <script type="text/javascript" src="../js/switchcontent.js"></script>
-
-<!-- JS File used for ajax search -->
+<!-- JS File jquery login -->
 <script type="text/javascript" src="../js/jquery-1.8.0.min.js"></script>
-
-<!-- JS used for ajax search -->
-<script type="text/javascript" src="../js/ajax-search.js">
-	
+<!-- JS File for Ajax Search -->
+<script type="text/javascript" src="../js/ajaxsearch.js">
 </script>
+
 <script>
 	$(document).ready(function() {
 		$('a.login-window').click(function() {
@@ -145,8 +142,8 @@ Logged in as <b>{$username}</b><a href="logout.php">Logout</a>
 				</div>
 				<div class="searchcontent">
 					<input type="text" class="search" id="searchid"
-						placeholder="{$search}" />
-					<div id="res"></div>
+						 onkeyup="searchFor(this.value);" />
+					<div id="ergebnis"></div>
 				</div>
 				<div
 					style="background-image: url(images/border.gif); background-repeat: repeat-x; padding: 10px">

@@ -1,5 +1,10 @@
 <?php
-
+/**
+ * This function file provides basic functionality and functions to create the menu and display items
+ *
+ * @version    1.0
+ * @author     Original Author <reubd1@bfh.ch>
+ */
 include("propel_init.php");
 include 'XmlTranslation.php';
 //include the RainTPL class
@@ -67,9 +72,11 @@ function add_param($url, $name, $value, $sep="&") {
 	return $new_url;
 }
 
-//this function assigns an array of all categories to the template to display them as menu points
+/*
+ * this function assigns the categories to the template to display them as menu points
+*/
 function menu(){
-	
+
 	global $tpl;
 
 	//get all categories(DB Classes generated with Propel)
@@ -86,8 +93,9 @@ function menu(){
 
 	$tpl->assign("cat", $catarr);
 }
-
-//this function gets all items of a choosen category
+/*
+ * this function gets all items of a choosen category
+*/
 function items() {
 	$id = get_param("catid", "1");
 

@@ -1,4 +1,11 @@
 <?php
+/**
+ * This file is used for the custom cupcake editor. A cupcake consists of the base-cake, topping and decoration.
+ * These values can be choosen in the editor
+ *
+ * @version    1.0
+ * @author     Original Author <reubd1@bfh.ch>
+ */
 include("ShoppingCart.inc.php");
 include("CartItem.inc.php");
 include 'functions.php';
@@ -18,6 +25,9 @@ else{
 	$tpl->assign("addcustom", false);
 }
 
+/*
+ * Formvalidation
+*/
 if($_POST)
 {
 	$name = $_POST['item'];
@@ -60,7 +70,7 @@ if($_POST)
 	}
 }
 
-
+//get Cake from Database
 $cakes = CakeQuery::create()->find();
 $cake = new Cake();
 
@@ -68,8 +78,10 @@ $cakearr = array();
 foreach($cakes as $cake){
 	$cakearr[]= $cake;
 }
+//assign cake to the html-template
 $tpl->assign("cake", $cakearr);
 
+//get Topping from Database
 $toppings = ToppingQuery::create()->find();
 $topping = new Topping();
 
@@ -77,8 +89,10 @@ $toppingarr = array();
 foreach($toppings as $topping){
 	$toppingarr[]= $topping;
 }
+//assign Topping to the html-template
 $tpl->assign("topping", $toppingarr);
 
+//get Decoration from Database
 $decorations = DecorationQuery::create()->find();
 $decoration = new Decoration();
 
@@ -86,6 +100,7 @@ $decorationarr = array();
 foreach($decorations as $decoration){
 	$decorationarr[]= $decoration;
 }
+//assign Decoration to the html-template
 $tpl->assign("decoration", $decorationarr);
 
 menu();

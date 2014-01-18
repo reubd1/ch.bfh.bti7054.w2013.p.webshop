@@ -1,9 +1,14 @@
-
 <?php
+/**
+ * This is the entry point of the webshop
+ *
+ * @version    1.0
+ * @author     Original Author <reubd1@bfh.ch>
+ */
 include("ShoppingCart.inc.php");
 include("CartItem.inc.php");
 include "functions.php";
-
+require_once("vendor/twitteroauth/twitteroauth.php"); //Path to twitteroauth library
 
 
 if (isset($_GET["item"]) && isset($_GET["id"]) && isset($_POST['quantity']))
@@ -23,9 +28,9 @@ else{
 
 $tpl->assign("items",items());
 
-
-require_once("vendor/twitteroauth/twitteroauth.php"); //Path to twitteroauth library
-
+/*
+ * the following lines are used for authentication with twitter API
+ */
 $twitteruser = "sprinkles";
 $notweets = 5;
 $consumerkey = "VagINpZQJrCVdDMmfZZWA";
@@ -40,6 +45,7 @@ function getConnectionWithAccessToken($cons_key, $cons_secret, $oauth_token, $oa
 
 $connection = getConnectionWithAccessToken($consumerkey, $consumersecret, $accesstoken, $accesstokensecret);
 
+//get tweets of requested twitter user by REST Webservice call
 $tweets = $connection->get("https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=".$twitteruser."&count=".$notweets);
 $tpl->assign("tweets", $tweets);
 
@@ -48,26 +54,22 @@ menu();
 
 
 
-if(isset($_POST['search']) && $_POST['search'] != '')
-{
-	$kws = $_POST['search'];
+/*
+ * get input value of ajax search, search string on database and display the results
+ */
+if ($_POST["suche"]){
+		// Mysql Abfrage mit den Notwendigen Parameter
+		$items = ItemQuery::create()
+		->where('Item.Name LIKE ?', '%'.mysql_real_escape_string(utf8_decode($_POST["suche"])).'%')
+		->find();
 
-	// Build Query
-	$items = ItemQuery::create()
-	->where('Item.Name LIKE ?', '%'.$kws.'%')
-	->find();
-
-	// Check If We Have Results
-	if (isset($items)) {
-		$i = 0;
 		if(count($items)>0){
-			echo "<ul>";
 			foreach ($items as $result) {
 					
 
-				$display_url = "main.php?catid=".$result->getCategoryId();
+				$display_url = "main.php?catid=".utf8_encode($result->getCategoryId());
 				echo"<div class=\"show\" align=\"left\">
-				<span class=\"name\"><a href='$display_url'>".$result->getName()."</a></span>
+				<span class=\"name\"><a href='$display_url'>".utf8_encode($result->getName())."</a></span>
 						</div>";
 					
 			}
@@ -77,8 +79,8 @@ if(isset($_POST['search']) && $_POST['search'] != '')
 			echo "<div class=\"show\" align=\"left\">
 					<span class=\"name\">No result found !</span></div>";
 		}
-	}
 }
+
 
 
 

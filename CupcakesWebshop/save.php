@@ -1,11 +1,18 @@
 <?php 
+/**
+ * This file checks the checkoutform with regex and saves all order details and adrress in the database.
+ * additionally the function generatePDF will be called to create a PDF if the user clicks on the Link
+ *
+ * @version    1.0
+ * @author     Original Author <reubd1@bfh.ch>
+ */
 include("ShoppingCart.inc.php");
 include("CartItem.inc.php");
 include 'functions.php';
 include('generatePdf.php');
 
 function died($error) {
-	// your error code can go here
+	// error if validation is wrong
 	echo "We are very sorry, but there were error(s) found with the form you submitted. ";
 	echo "These errors appear below.<br /><br />";
 	echo $error."<br /><br />";
@@ -71,11 +78,14 @@ function clean_string($string) {
 $userid = $_SESSION["userid"];
 $cart = $_SESSION["cart"];
 $items = $cart->getItems();
+$total = $cart->getTotalPrice();
 
 if (isset($_GET['run'])) $linkchoice=$_GET['run'];
 else $linkchoice='';
 
 $show = false;
+
+//check if the user choosed save or pdf to view the pdf
 switch($linkchoice){
 
 	case 'save' :
@@ -83,7 +93,7 @@ switch($linkchoice){
 		break;
 
 	case 'pdf' :
-		$pdf = generatePdf($name, $street, $zip, $city, $country, $cardtype, $items, $oid, $show );
+		$pdf = generatePdf($name, $street, $zip, $city, $country, $cardtype, $items, $oid, $total, $show );
 		$pdf->Output($filename, "I");
 		break;
 
@@ -92,6 +102,10 @@ switch($linkchoice){
 
 }
 
+/*
+ * save the orderdetails like shippingaddress, billing, order and custom or normal items
+ * and save them with the call of save();
+ */
 function save(){
 	global $userid;
 	global $cart;
@@ -147,7 +161,7 @@ function save(){
 		}
 	}
 	/*
-	$pdf = generatePdf($name, $street, $zip, $city, $country, $cardtype, $items, $oid, $show );
+	 $pdf = generatePdf($name, $street, $zip, $city, $country, $cardtype, $items, $oid, $show );
 	$filename = "Rechnung.pdf";
 	$doc = $pdf->Output($filename, "S");
 
@@ -160,8 +174,8 @@ function save(){
 
 
 
-	$from = "me@example.com";
-	$email_to = "me@example.com";
+	$from = "dominik@example.com";
+	$email_to = "dominik@example.com";
 	$email_subject = "Cupcake Order from the flying cupcakes";
 
 
@@ -202,9 +216,9 @@ function save(){
 	mail($email_to, $email_subject, $body, $headers);
 
 	//@mail($email_to, $email_subject, $email_message, $headers);
-	
- 
-	 */
+
+
+	*/
 }
 
 

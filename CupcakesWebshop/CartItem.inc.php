@@ -1,4 +1,11 @@
 <?php
+
+/**
+ * This class represents the item of the cart and provides getter and setter for it's attributes
+ *
+ * @version    1.0
+ * @author     Original Author <reubd1@bfh.ch>
+ */
 class CartItem {
 	protected $name;
 	protected $price;

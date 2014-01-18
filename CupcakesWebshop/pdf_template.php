@@ -1,4 +1,10 @@
 <?php
+/**
+ * This class provides functions for the PDF Template of the order details
+ *
+ * @version    1.0
+ * @author     Original Author <reubd1@bfh.ch>
+ */
 require('fpdf.php');
 
 //Template for PDF Generation
@@ -291,26 +297,6 @@ class PDF_Invoice extends FPDF
 		}
 		return ( $maxSize - $ligne );
 	}
-
-
-
-
-	/*
-	 $this->SetFont( "Arial", "", 8);
-	$this->SetXY( $re, $y1+5 );
-	$this->Cell( 17,4, sprintf("%0.2F", $totalTTC), '', '', 'R');
-	$this->SetXY( $re, $y1+10 );
-	$this->Cell( 17,4, sprintf("%0.2F", $accompteTTC), '', '', 'R');
-	$this->SetXY( $re, $y1+14.8 );
-	$this->Cell( 17,4, sprintf("%0.2F", $totalTTC - $accompteTTC), '', '', 'R');
-	$this->SetXY( $rf, $y1+5 );
-	$this->Cell( 17,4, sprintf("%0.2F", $totalTTC * EURO_VAL), '', '', 'R');
-	$this->SetXY( $rf, $y1+10 );
-	$this->Cell( 17,4, sprintf("%0.2F", $accompteTTC * EURO_VAL), '', '', 'R');
-	$this->SetXY( $rf, $y1+14.8 );
-	$this->Cell( 17,4, sprintf("%0.2F", ($totalTTC - $accompteTTC) * EURO_VAL), '', '', 'R');
-
-	*/
 
 }
 ?>

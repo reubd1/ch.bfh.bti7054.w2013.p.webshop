@@ -1,8 +1,13 @@
 <?php
-//generate a PDF Invoice
+/**
+ * This file contains functions to generate a PDF with the order details
+ *
+ * @version    1.0
+ * @author     Original Author <reubd1@bfh.ch>
+ */
 include('pdf_template.php');
 
-function generatePdf($name, $street, $zip, $city, $country, $cardtype, $items, $orderid, $show){
+function generatePdf($name, $street, $zip, $city, $country, $cardtype, $items, $orderid,$total, $show){
 
 	$pdf = new PDF_Invoice( 'P', 'mm', 'A4' );
 	$pdf->AddPage();
@@ -45,6 +50,18 @@ function generatePdf($name, $street, $zip, $city, $country, $cardtype, $items, $
 		$size = $pdf->addLine( $y, $line );
 		$y   += $size + 2;
 	}
+	$y   += $size + 2;
+	$line = array( "Name"    => "--------",
+				"Price/Piece"  => "--------",
+				"Quantity"     => "--------",
+				"Price"      => "--------");
+	$size = $pdf->addLine( $y, $line );
+	$y   += $size + 2;
+	$line = array( "Name"    => "Total",
+				"Price/Piece"  => "",
+				"Quantity"     => "",
+				"Price"      => $total);
+	$size = $pdf->addLine( $y, $line );
 	ob_end_clean();
 	return $pdf;
 }

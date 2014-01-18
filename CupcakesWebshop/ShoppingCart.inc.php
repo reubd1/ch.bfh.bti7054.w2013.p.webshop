@@ -1,4 +1,11 @@
 <?php
+/**
+ * This class represents the shopping cart and provides functions to count, get or add items to the cart or remove them
+ * There is also a display function that displays items currently in the cart
+ *
+ * @version    1.0
+ * @author     Original Author <reubd1@bfh.ch>
+ */
 class ShoppingCart {
 	private $items = array();
 
@@ -57,7 +64,10 @@ class ShoppingCart {
 
 		return $totalPrice;
 	}
-
+	
+	/*
+	 * Display items that are in the cart currently
+	 */
 	public function display() {
 		//check if cart exists and there are entries
 		if ($this->isEmpty()) {
